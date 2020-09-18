@@ -26,7 +26,8 @@ class QLearning_controller(c.Controller):
         
         # if sum(dst) < ((self.robot.vision_range[1] + self.robot.radius) * len(dst)):
         #     print(dst)
-        print(self.robot.orientation)
+        # print(self.robot.orientation)
+        print(self.robot.x, self.robot.y)
         return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
         #return self.number + 30, self.number
 
@@ -74,6 +75,9 @@ class QLearning_controller(c.Controller):
             self.robot.x = self.origin[0]
             self.robot.y = self.origin[1]
             self.robot.orientation = self.orginalOrientation
+            return 0
+        elif pygame.K_y in u.pressed:
+            self.robot.orientation = 90
             return 0
         return 0
 

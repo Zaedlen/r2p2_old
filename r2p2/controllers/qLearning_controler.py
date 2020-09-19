@@ -16,7 +16,6 @@ class QLearning_controller(c.Controller):
         self.origin = (-1, -1)
         self.orginalOrientation = 0
         self.number = random.randint(5,20)
-        print(self.number)
 
     def control(self, dst):
         """
@@ -27,9 +26,10 @@ class QLearning_controller(c.Controller):
         # if sum(dst) < ((self.robot.vision_range[1] + self.robot.radius) * len(dst)):
         #     print(dst)
         # print(self.robot.orientation)
-        print(self.robot.x, self.robot.y)
-        return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
-        #return self.number + 30, self.number
+        # print(self.robot.x, self.robot.y)
+        # print(self.robot.sensors)
+        # return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
+        return self.number + 30, self.number
 
     def register_robot(self, r):
         """
@@ -85,4 +85,4 @@ class QLearning_controller(c.Controller):
         self.robot.x = self.origin[0]
         self.robot.y = self.origin[1]
         self.robot.orientation = self.orginalOrientation
-        self.number = random.randint(20,200)
+        self.number = random.randint(5,20)

@@ -248,6 +248,7 @@ class Robot:
         self.last_op_started = time.time()
         self.turn(self.angular_velocity * delta)
         self.__benchmark_time('__update_angle')
+        print(delta)
 
     def turn(self, angle = 0):
         """

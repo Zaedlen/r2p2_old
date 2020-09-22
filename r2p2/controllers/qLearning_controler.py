@@ -15,8 +15,8 @@ class QLearning_controller(c.Controller):
         self.cur_detected_edges_distances = []
 
         # Guardamos condiciones iniciales
-        self.origin = (-1, -1) # Lo inicializa el robot
-        self.orginalOrientation = 0 # Lo inicializa el robot
+        self.origin = (-1, -1) # Se inicializa al registrar el robot
+        self.orginalOrientation = 0 # Se inicializa al registrar el robot
 
         # Definimos constantes
         self.learning_rate = 0.1
@@ -25,13 +25,13 @@ class QLearning_controller(c.Controller):
 
         self.discrete_states_number = 3 # Numero de tramos en los que discretizamos los sensores
         self.discrete_actions_number = 3 # Numero de tramos en los que discretizamos las acciones
-        self.discrete_window_size = -1 # Lo inicializa el robot
+        self.discrete_window_size = -1 # Se inicializa al registrar el robot
 
-        self.max_velocity = -1 # Lo inicializa el robot
+        self.max_velocity = -1 # Se inicializa al registrar el robot
         self.max_angular = 25
 
         # Estructuras necesarias
-        # self.
+        self.action_list = [] # Se inicializa al registrar el robot
 
         self.number = random.randint(5,20)
 
@@ -48,8 +48,9 @@ class QLearning_controller(c.Controller):
         # print(self.robot.x, self.robot.y)
         # print(self.robot.sensors)
         # print(self.robot.angular_velocity)
-        return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
+        # return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
         # return self.number + 30, self.number
+        return [5, 5]
 
     def register_robot(self, r):
         """
@@ -66,6 +67,9 @@ class QLearning_controller(c.Controller):
         self.discrete_window_size = (r.vision_range[1] - r.vision_range[0]) / self.discrete_states_number
         self.max_velocity = r.max_speed
 
+        # Estructuras necesarias
+        self.action_list = self.combine_actions(self.get_discrete_velocities(self.max_velocity), self.get_discrete_velocities(self.max_angular))
+
     def get_discrete_state(self, state):
         """
             Devuelve un estado discreto dentro de uno de los tramos en los que hemos
@@ -76,14 +80,19 @@ class QLearning_controller(c.Controller):
         discrete_state = (np.array(state) - ([r.vision_range[0]] * len(state))) / ([self.discrete_window_size] * len(state))
         return discrete_state.astype(np.int).tolist()
 
-    def get_discrete_velocities(self, high, low = 0.0, length = self.discrete_actions_number):
+    def get_discrete_velocities(self, high, low = 0.0, length = -1):
+        if length == -1: length = self.discrete_actions_number
         veloc = [low]
         for i in range(1, length):
             veloc.append(i * (high/(length - 1)))
         return veloc
 
-    def combine_actions(self, action_list_a, action_list_b):
-        
+    def combine_actions(self, veloc_list, ang_list):
+        resultado = []
+        for i in veloc_list:
+            for j in ang_list:
+                resultado.append([i, j])
+        return resultado
 
     def choose_angle(self, ang, dst):
         """

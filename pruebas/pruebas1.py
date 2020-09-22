@@ -13,11 +13,25 @@ import numpy as np
 # print(get_discrete_size(a))
 
 
-def get_discrete_velocities(high, low = 0.0):
-    discrete_actions_number = 4
-    veloc = [low]
-    for i in range(1, discrete_actions_number):
-        veloc.append(i * (high/(discrete_actions_number - 1)))
-    return veloc
+# def get_discrete_velocities(high, low = 0.0):
+#     discrete_actions_number = 4
+#     veloc = [low]
+#     for i in range(1, discrete_actions_number):
+#         veloc.append(i * (high/(discrete_actions_number - 1)))
+#     return veloc
 
-print(get_discrete_velocities(7))
+# print(get_discrete_velocities(7))
+
+def combine_actions(veloc_list, ang_list):
+        resultado = []
+        for i in veloc_list:
+            for j in ang_list:
+                resultado.append([i, j])
+        return resultado
+
+actions = combine_actions([1,2,3], [4,5,6])
+print(actions)
+for i in actions:
+    print(i)
+
+print(actions[0])

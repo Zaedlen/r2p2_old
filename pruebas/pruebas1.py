@@ -22,16 +22,24 @@ import numpy as np
 
 # print(get_discrete_velocities(7))
 
-def combine_actions(veloc_list, ang_list):
-        resultado = []
-        for i in veloc_list:
-            for j in ang_list:
-                resultado.append([i, j])
-        return resultado
+# def combine_actions(veloc_list, ang_list):
+#         resultado = []
+#         for i in veloc_list:
+#             for j in ang_list:
+#                 resultado.append([i, j])
+#         return resultado
 
-actions = combine_actions([1,2,3], [4,5,6])
-print(actions)
-for i in actions:
-    print(i)
+# actions = combine_actions([1,2,3], [4,5,6])
+# print(actions)
+# for i in actions:
+#     print(i)
 
-print(actions[0])
+# print(actions[0])
+
+a = 5
+print(a)
+print(type(a))
+a = 'a'
+print(a)
+print(type(a))
+

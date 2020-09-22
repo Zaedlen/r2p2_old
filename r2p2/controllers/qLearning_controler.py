@@ -32,6 +32,7 @@ class QLearning_controller(c.Controller):
 
         # Estructuras necesarias
         self.action_list = [] # Se inicializa al registrar el robot
+        self.q_table = [] # Se inicializa al registrar el robot
 
         self.number = random.randint(5,20)
 

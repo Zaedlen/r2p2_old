@@ -1,6 +1,23 @@
 import numpy as np
 
-a = np.random.uniform(-2,0,[2,3])
+# a = [1,2]
+# b = ([5] * len(a))
 
-print(a.shape)
-print(a[1,2])
+# print(a)
+# print(b)
+
+# def get_discrete_size(state):
+#         discrete_state = (np.array(state) - b) / [2, 2]
+#         return discrete_state.astype(np.int).tolist()
+
+# print(get_discrete_size(a))
+
+
+def get_discrete_velocities(high, low = 0.0):
+    discrete_actions_number = 4
+    veloc = [low]
+    for i in range(1, discrete_actions_number):
+        veloc.append(i * (high/(discrete_actions_number - 1)))
+    return veloc
+
+print(get_discrete_velocities(7))

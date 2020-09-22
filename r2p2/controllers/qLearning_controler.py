@@ -13,8 +13,26 @@ class QLearning_controller(c.Controller):
         self.cur_detected_edges = []
         self.actual_sensor_angles = []
         self.cur_detected_edges_distances = []
-        self.origin = (-1, -1)
-        self.orginalOrientation = 0
+
+        # Guardamos condiciones iniciales
+        self.origin = (-1, -1) # Lo inicializa el robot
+        self.orginalOrientation = 0 # Lo inicializa el robot
+
+        # Definimos constantes
+        self.learning_rate = 0.1
+        self.discount = 0.95
+        self.training_episodes = 1000
+
+        self.discrete_states_number = 3 # Numero de tramos en los que discretizamos los sensores
+        self.discrete_actions_number = 3 # Numero de tramos en los que discretizamos las acciones
+        self.discrete_window_size = -1 # Lo inicializa el robot
+
+        self.max_velocity = -1 # Lo inicializa el robot
+        self.max_angular = 25
+
+        # Estructuras necesarias
+        # self.
+
         self.number = random.randint(5,20)
 
     def control(self, dst):
@@ -25,11 +43,13 @@ class QLearning_controller(c.Controller):
         
         # if sum(dst) < ((self.robot.vision_range[1] + self.robot.radius) * len(dst)):
         #     print(dst)
+        # print(dst)
         # print(self.robot.orientation)
         # print(self.robot.x, self.robot.y)
         # print(self.robot.sensors)
-        # return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
-        return self.number + 30, self.number
+        # print(self.robot.angular_velocity)
+        return self.choose_speed(self.ang, dst), self.choose_angle(self.ang, self.dst)
+        # return self.number + 30, self.number
 
     def register_robot(self, r):
         """
@@ -37,8 +57,33 @@ class QLearning_controller(c.Controller):
             to read some odometry information from the physical hardware.
         """
         self.robot = r
+
+        # Guardamos condiciones iniciales
         self.origin = (self.robot.x, self.robot.y)
         self.orginalOrientation = self.robot.orientation
+
+        # Definimos constantes
+        self.discrete_window_size = (r.vision_range[1] - r.vision_range[0]) / self.discrete_states_number
+        self.max_velocity = r.max_speed
+
+    def get_discrete_state(self, state):
+        """
+            Devuelve un estado discreto dentro de uno de los tramos en los que hemos
+            dividido el rango total de los sensores.
+
+            Cada estado se define como un combinación concreta de valores de los sensores
+        """
+        discrete_state = (np.array(state) - ([r.vision_range[0]] * len(state))) / ([self.discrete_window_size] * len(state))
+        return discrete_state.astype(np.int).tolist()
+
+    def get_discrete_velocities(self, high, low = 0.0, length = self.discrete_actions_number):
+        veloc = [low]
+        for i in range(1, length):
+            veloc.append(i * (high/(length - 1)))
+        return veloc
+
+    def combine_actions(self, action_list_a, action_list_b):
+        
 
     def choose_angle(self, ang, dst):
         """
@@ -82,7 +127,7 @@ class QLearning_controller(c.Controller):
         return 0
 
     def on_collision(self, pos):
-        self.robot.x = self.origin[0]
-        self.robot.y = self.origin[1]
-        self.robot.orientation = self.orginalOrientation
+        # self.robot.x = self.origin[0]
+        # self.robot.y = self.origin[1]
+        # self.robot.orientation = self.orginalOrientation
         self.number = random.randint(5,20)

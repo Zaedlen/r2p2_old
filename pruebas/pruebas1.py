@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 
 # a = [1,2]
 # b = ([5] * len(a))
@@ -43,3 +43,15 @@ a = 'a'
 print(a)
 print(type(a))
 
+
+
+
+
+
+
+# import sys
+# for line in sys.stdin:
+#     if 'Exit' == line.rstrip():
+#         break
+#     print(f'Processing Message from sys.stdin *****{line}*****')
+# print("Done")

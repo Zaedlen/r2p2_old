@@ -207,3 +207,21 @@
 # al namespace actual SOBREESCRIBIENDO otra del mismo nombre en ese namespace si ya la hubiera, cuidado
 
 
+# Lectura de archivos ==================================================================================================================
+# El mecanismo de input basico de python es line based. Python dispone de la BIF 
+# open() que crea un iterador que trabaja con las diferentes lineas del archivo 
+# the_file = open("ejemplo.txt")
+# # Codigo
+# the_file.close()
+
+# Metodos y tal estan todos aqui: https://docs.python.org/3.7/library/io.html
+
+# the_file.readline() devuelve un string con la linea en la que se encuentre el iterador
+# y este pasa a la siguiente
+
+
+# Excepciones ==========================================================================================================================
+# https://docs.python.org/3.7/tutorial/errors.html 
+# https://docs.python.org/3.7/reference/compound_stmts.html#with
+
+

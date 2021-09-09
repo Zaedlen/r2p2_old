@@ -36,17 +36,12 @@
 
 # print(actions[0])
 
-a = 5
-print(a)
-print(type(a))
-a = 'a'
-print(a)
-print(type(a))
-
-
-
-
-
+# a = 5
+# print(a)
+# print(type(a))
+# a = 'a'
+# print(a)
+# print(type(a))
 
 
 # import sys
@@ -55,3 +50,12 @@ print(type(a))
 #         break
 #     print(f'Processing Message from sys.stdin *****{line}*****')
 # print("Done")
+
+
+
+
+
+from sys import argv
+import pruebas1
+print(__name__)
+print(argv)

@@ -51,6 +51,34 @@
 # print(len(dir(__builtins__)))
 
 
+# List Comprehension =========================================================================================================================
+# Al parecer es otra de las funcionalidades de python que permiten crear una nueva lista 
+# especificando la transformacion o transformaciones que se han de aplicar a cada uno de los elementos 
+# de la antigua lista. Todo más compacto y limpio que hacer cada uno de los pasos necesarios por separado:
+#     1. Crear la nueva lista
+#     2. Iterar la lista antigua obteniendo cada uno de sus elem
+#     3. Aplicar la transformacion a cada elem en cada iteracion
+#     4. Hacer append para añadir dicho elem tranformado a ala nueva lista en cada iteracion
+
+#     clean_mikey = []
+
+#     for each_t in mikey:
+#         clean_mikey.append(transform(each_t))
+
+# Eso es equivalente a: 
+
+#     clean_mikey = [transform(each_t) for each_t in mikey]
+
+# https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
+
+
+# List Slice ===============================================================================================================================================
+# https://docs.python.org/3/library/stdtypes.html#sequence-types-list-tuple-range
+# https://stackoverflow.com/questions/509211/understanding-slice-notation/509295#509295
+# 
+
+
+
 # Bucles en Python ===========================================================================================================================================================
 #   FOR
 # fruta = ["platano", "pera", "manzana"]
@@ -78,6 +106,7 @@
 # https://stackify.com/python-garbage-collection/
 # https://docs.python.org/3/library/gc.html
 # https://stackoverflow.com/questions/1316767/how-can-i-explicitly-free-memory-in-python
+# https://stackoverflow.com/questions/2123925/when-does-python-allocate-new-memory-for-identical-strings
 
 # ejemplo = [1,2,3,4]
 # copia_mal_1 = ejemplo
@@ -223,5 +252,24 @@
 # Excepciones ==========================================================================================================================
 # https://docs.python.org/3.7/tutorial/errors.html 
 # https://docs.python.org/3.7/reference/compound_stmts.html#with
+
+
+# Context Manager en python ===============================================================================================================
+# https://docs.python.org/3.7/reference/compound_stmts.html#with
+# https://www.geeksforgeeks.org/context-manager-in-python/
+# https://book.pythontips.com/en/latest/context_managers.html
+# https://realpython.com/python-with-statement/
+
+
+# Underscores en python ================================================================================================================
+# https://dbader.org/blog/meaning-of-underscores-in-python
+
+
+# Clases ==============================================================================================================================<<<<<<
+# https://dbader.org/blog/meaning-of-underscores-in-python
+# https://docs.python.org/3.7/reference/datamodel.html#the-standard-type-hierarchy
+# https://docs.python.org/3.7/reference/datamodel.html#special-method-names
+
+
 
 

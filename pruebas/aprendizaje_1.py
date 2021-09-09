@@ -270,6 +270,3 @@
 # https://docs.python.org/3.7/reference/datamodel.html#the-standard-type-hierarchy
 # https://docs.python.org/3.7/reference/datamodel.html#special-method-names
 
-
-
-

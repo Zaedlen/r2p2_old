@@ -52,10 +52,9 @@
 # print("Done")
 
 
+# from sys import argv
+# print(__name__)
+# print(argv)
 
 
 
-from sys import argv
-import pruebas1
-print(__name__)
-print(argv)

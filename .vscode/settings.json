@@ -1,4 +1,6 @@
 {
     "python.condaPath": "D:\\Programas\\Anaconda3\\envs\\r2p2\\python.exe",
-    "python.defaultInterpreterPath": "D:\\Programas\\Anaconda3\\envs\\r2p2\\python.exe"
+    "python.defaultInterpreterPath": "D:\\Programas\\Anaconda3\\envs\\r2p2\\python.exe",
+    "python.pythonPath": "D:\\Programas\\Anaconda3\\envs\\r2p2\\python.exe",
+    "terminal.integrated.defaultProfile.windows": "Conda r2p2"
 }

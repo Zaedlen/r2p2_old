@@ -57,26 +57,33 @@ def args_list_to_dict(args: list):
     return dictionary
 
 if __name__ == '__main__':
-    import argparse
+    # import argparse
 
-    parser = argparse.ArgumentParser(\
-        description='Run a simulation using a specified scenario.',
-        epilog='Any extra argument passed through the CLI will be used to overwrite scenario parameters. Do not enter spaces in the values or add quotes! Ex: --start [20,10] --goal "[21, 11]"')
-    parser.add_argument('--version', action='store_true', \
-            help='Displays the current version of the simulator.')
-    parser.add_argument('--scenario', metavar='S', nargs='?',\
-        help='Path to the configuration JSON in which the scenario is defined.')
-    parser.add_argument('--controller', metavar='C', nargs='?',\
-        help='Path to the controller that you want to use. This will override the scenario one if there was any.')
-    args, unknown = parser.parse_known_args()
-    unknown_args = args_list_to_dict(unknown)
+    # parser = argparse.ArgumentParser(\
+    #     description='Run a simulation using a specified scenario.',
+    #     epilog='Any extra argument passed through the CLI will be used to overwrite scenario parameters. Do not enter spaces in the values or add quotes! Ex: --start [20,10] --goal "[21, 11]"')
+    # parser.add_argument('--version', action='store_true', \
+    #         help='Displays the current version of the simulator.')
+    # parser.add_argument('--scenario', metavar='S', nargs='?',\
+    #     help='Path to the configuration JSON in which the scenario is defined.')
+    # parser.add_argument('--controller', metavar='C', nargs='?',\
+    #     help='Path to the controller that you want to use. This will override the scenario one if there was any.')
+    # args, unknown = parser.parse_known_args()
+    # unknown_args = args_list_to_dict(unknown)
 
-    if args.version:
-        print('R2P2 v.'+__version__)
-        exit()
+    # if args.version:
+    #     print('R2P2 v.'+__version__)
+    #     exit()
     
-    if args.scenario:
-        config_mgr = ConfigManager(scenario_config = args.scenario, controller_config = args.controller, params = unknown_args)
-    else:
-        config_mgr = ConfigManager(controller_config = args.controller, params = unknown_args)
-    start_simulation(config_mgr)
+    # if args.scenario:
+    #     config_mgr = ConfigManager(scenario_config = args.scenario, controller_config = args.controller, params = unknown_args)
+    # else:
+    #     config_mgr = ConfigManager(controller_config = args.controller, params = unknown_args)
+    # start_simulation(config_mgr)
+
+
+    import argparse_r2p2
+
+    parser = argparse_r2p2.R2P2ArgumentParser()
+    args, unknown = parser.parse_known_args()
+    print(unknown)

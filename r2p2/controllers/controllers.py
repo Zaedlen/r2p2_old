@@ -18,6 +18,18 @@ class add_path():
             pass
 
 def load_controller(name):
+    """
+        ###
+        
+        Ejemplo: name = 'naive_controller.Naive_Controller'
+        components = ['naive_controller', 'Naive_Controller']
+        controller = naive_controller (el objeto tras el import)
+        for:
+            controller = getattr(naive_controller, 'Naive_Controller')
+                -> controller = referencia a la clase Naive_Controller
+
+        Si hubiera varios devuelve una lista de referencias
+    """
     with add_path('controllers'):
         components = name.split('.')
         controller = __import__(components[0])

@@ -58,3 +58,23 @@
 
 
 
+# dic1 = {'a': 3, 'b': 4}
+# dic2 = {'c': 1, 'd': 2}
+# dic3 = {**dic1, **dic2}
+
+# print(dic1)
+# print(dic2)
+# print(dic3)
+# print(*dic1)
+
+
+
+import json
+
+with open('pruebaJson.json', 'r') as f:
+    lectura:dict = json.loads(f)
+
+for key in lectura:
+    print(key, type(lectura[key]))
+    print(lectura[key] == None)
+    if not lectura[key]: print("Cachis")

@@ -1,0 +1,13 @@
+{
+	"stage": "../res/stage.png",
+	"robot": ["../conf/robot.json"],
+	"controller": "../conf/controller-telecom.json",
+	"gui": true,
+    "hola": 3,
+    "otra": null,
+    "grupo": {
+        "a": 3,
+        "b": true
+    },
+    "falso": false
+}

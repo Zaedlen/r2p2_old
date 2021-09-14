@@ -69,12 +69,28 @@
 
 
 
-import json
+# import json
 
-with open('pruebaJson.json', 'r') as f:
-    lectura:dict = json.loads(f)
+# with open('pruebaJson.json', 'r') as f:
+#     lectura:dict = json.loads(f)
 
-for key in lectura:
-    print(key, type(lectura[key]))
-    print(lectura[key] == None)
-    if not lectura[key]: print("Cachis")
+# for key in lectura:
+#     print(key, type(lectura[key]))
+#     print(lectura[key] == None)
+#     if not lectura[key]: print("Cachis")
+
+
+
+
+import aprendizaje_1
+from subdirectorio import modulo
+
+# modulo.hola()
+
+# print(aprendizaje_1.uno)
+a = aprendizaje_1.Carla()
+# print(a.tres)
+
+all_v = dir()
+b = eval('aprendizaje_1')
+# print(dir(aprendizaje_1))

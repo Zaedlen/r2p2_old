@@ -272,28 +272,3 @@
 
 
 
-
-
-import json
-
-parametros = {
-    'posX':2,
-    'posY':5,
-    'veloc':30,
-    'lista':[],
-}
-
-class Carla():
-
-    def __init__(self) -> None:
-        with open('carla.json', 'r') as f:
-            lectura = json.load(f)
-        
-        lectura = {**parametros, **lectura}
-
-        print(lectura)
-
-        lectura['posY'] = 89
-
-        with open('carla.json', 'w') as f:
-            json.dump(lectura, f, indent=4)

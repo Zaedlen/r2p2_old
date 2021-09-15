@@ -82,15 +82,18 @@
 
 
 
-import aprendizaje_1
-from subdirectorio import modulo
+# import aprendizaje_1
+# from subdirectorio import modulo
 
-# modulo.hola()
+# # modulo.hola()
 
-# print(aprendizaje_1.uno)
-a = aprendizaje_1.Carla()
-# print(a.tres)
+# # print(aprendizaje_1.uno)
+# a = aprendizaje_1.Carla()
+# # print(a.tres)
 
-all_v = dir()
-b = eval('aprendizaje_1')
-# print(dir(aprendizaje_1))
+# all_v = dir()
+# b = eval('aprendizaje_1')
+# # print(dir(aprendizaje_1))
+
+
+

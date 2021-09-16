@@ -97,3 +97,18 @@
 
 
 
+import inspect as i
+import typing as t
+import functools as f
+
+class ejemplo():
+    def hola(self, primero:int, segundo:t.Union[t.Any, int]) -> None: ...
+    # hola.__signature__ = (self, primero: int, segundo: Union[Any, int]) -> None
+
+class ejemplo2(ejemplo):
+    def hola(self, primero: int, segundo: t.Union[t.Any, int]) -> None:
+        return super().hola(primero, segundo)
+
+
+signatura = i.signature(ejemplo.hola)
+print(signatura.parameters)

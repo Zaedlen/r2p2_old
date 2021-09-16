@@ -7,16 +7,26 @@ from tkinter import ttk
     frame de estos sea para un parametro concreto.
 '''
 
+class MiniFrame(tk.Frame):
+    def __init__(self, size, master=None, cnf={}, **kw):
+        super().__init__(master=master, cnf=cnf, **kw)
+        self._size = size
+        self.configure()
+    
+
 class Boton(tk.Button):
-    def __init__(self, master, text):
-        super().__init__(master=master, justify='center', text=text, command=self.clicked)
-        self.pack(fill='x')
+    def __init__(self, master, num):
+        self._num = num
+        super().__init__(master=master, justify='center', text=f'Boton {num}', command=self.clicked)
         
     def clicked(self):
         print('Se ha pulsado el boton:', self.cget('text'))
+        self._num += 1
+        self.configure(text=f'Boton {self._num}')
 
 
 class ParamFrame(tk.Frame):
+
     def __init__(self, master=None, cnf={}, **kw):
         super().__init__(master=master, cnf=cnf, **kw)
 
@@ -43,7 +53,7 @@ class ParamFrame(tk.Frame):
 
     def populate(self):
         for i in range(15):
-            Boton(self._param_container, text=f'Boton {i}').pack(fill='x')
+            Boton(self._param_container, i).pack(fill='x')
 
 
 
@@ -53,8 +63,14 @@ if __name__ == '__main__':
     window.geometry('400x600')
     window.configure(background='red')
 
-    a = ParamFrame(window)
-    a.pack(side=tk.TOP, fill='x', expand=True, padx=5, pady=5, anchor='n')
+    # a = ParamFrame(window)
+    # a.pack(side=tk.TOP, fill='x', expand=False, padx=5, pady=5, anchor='n')
+    
+    lista = []
+    for i in range(15):
+        lista.append(Boton(window, i).pack(fill='x'))
 
+
+    b = tk.Listbox(window, listvariable=lista)
     window.mainloop()
 

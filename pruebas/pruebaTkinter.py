@@ -17,7 +17,9 @@ class MiniFrame(tk.Frame):
 class Boton(tk.Button):
     def __init__(self, master, num):
         self._num = num
-        super().__init__(master=master, justify='center', text=f'Boton {num}', command=self.clicked)
+        self.frame = tk.Frame(master)
+        super().__init__(master=self.frame, justify='center', text=f'Boton {num}', command=self.clicked)
+        self.pack(fill='x')
         
     def clicked(self):
         print('Se ha pulsado el boton:', self.cget('text'))
@@ -66,11 +68,23 @@ if __name__ == '__main__':
     # a = ParamFrame(window)
     # a.pack(side=tk.TOP, fill='x', expand=False, padx=5, pady=5, anchor='n')
     
-    lista = []
-    for i in range(15):
-        lista.append(Boton(window, i).pack(fill='x'))
+    # lista = []
+    # for i in range(50):
+    #     lista.append(Boton(window, i).pack(fill='x'))
 
+    # b = tk.Listbox(window, listvariable=lista)
 
-    b = tk.Listbox(window, listvariable=lista)
+    b = tk.Listbox(window)
+    b.pack(side=tk.LEFT, fill='both', expand=True)
+
+    s = tk.Scrollbar(window, orient=tk.VERTICAL)
+    s.pack(side=tk.RIGHT, fill='y')
+
+    for i in range(50):
+        b.insert(tk.END, Boton(b, i))
+
+    b.configure(yscrollcommand=s.set)
+    s.configure(command=b.yview)
+    
     window.mainloop()
 

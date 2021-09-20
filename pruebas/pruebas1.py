@@ -102,13 +102,43 @@ import typing as t
 import functools as f
 
 class ejemplo():
-    def hola(self, primero:int, segundo:t.Union[t.Any, int]) -> None: ...
-    # hola.__signature__ = (self, primero: int, segundo: Union[Any, int]) -> None
+    def __init__(self) -> None:
+        self.saludo = 'soy ejemplo'
+
+    # def hola(self, primero:int, segundo:t.Union[t.Any, int]) -> None: 
+    #     print(self.saludo)
+
+    def hola(self): 
+        print(self.saludo)
 
 class ejemplo2(ejemplo):
-    def hola(self, primero: int, segundo: t.Union[t.Any, int]) -> None:
-        return super().hola(primero, segundo)
+    def __init__(self) -> None:
+        ejemplo.__init__(self)
+        self.saludo = 'soy ejemplo 2'
+        self.otro = 'just 2'
+
+    # def hola(self, primero: int, segundo: t.Union[t.Any, int]) -> None:
+    #     print(self.)
+
+    def hola(self):
+        ejemplo.hola(self)
+        print(self.otro)
 
 
-signatura = i.signature(ejemplo.hola)
-print(signatura.parameters)
+# signatura = i.signature(ejemplo.hola)
+# print(signatura.parameters)
+
+
+a = ejemplo2()          # instanciamos a como ejemplo2
+a.hola()                # hola() de ejemplo2 -> imprime 'soy ejemplo 2' y 'just 2'
+b = ejemplo()           # instanciamos b como ejemplo
+b.hola()                # hola() de ejemplo -> imprime 'soy ejemplo'
+ejemplo.hola(a)         # accedes al metodo desde fuera because I dont give a f*** dando la referencia para que funcionen los calls a self -> imprime 'soy ejemplo' porque llamamos al hola() de ejmplo con una referencia a ejemplo2 (a) que hereda de ejemplo
+ejemplo.hola(b)         # lo mismo pero ahora le referencia a self es b, por lo que el hola() es de b -> imprime 'soy ejemplo'
+ejemplo2.hola(a)        # accedes al metodo hola() de ejemplo2 con a, una instancia de ejemplo2, todo correcto. b con esto falla porque usa hola de ejemplo2 como dice y a el le falta el atributo otro
+ejemplo2.__init__(b)    # como con b no funciona, pues lo metemos en el constructor de ejemplo2 y a b se le añaden o sobreescriben todas las cosas para ser ejemplo2. A tomar por c***
+ejemplo2.hola(b)        # ahora si llamamos a hola() de ejmplo2 con la instancia de b, no peta
+b.hola()                # y si vemos cual es ahora su hola() pues resulta que se ha sobreescrito y ahora es el hola() ejemplo2
+
+
+

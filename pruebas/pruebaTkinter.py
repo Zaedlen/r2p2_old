@@ -119,7 +119,11 @@ if __name__ == '__main__':
     window.grid_rowconfigure(1, weight=1)
     # window.grid_anchor('center')
     
-    print(fd.askopenfilename())
+    ruta = fd.askopenfilename()
+    if ruta: # Al pulsar cancelar se devuelve '' (string vacio) lo que en este if se traduce como False
+        print(ruta)
+    else:
+        print('No hay ruta')
 
     window.mainloop()
 

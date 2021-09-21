@@ -102,8 +102,8 @@ if __name__ == '__main__':
     window.title("Prueba")
     window.geometry('400x600')
     window.configure(background='red')
-    window.update_idletasks()
-    window.grid(baseWidth=100, baseHeight=100, widthInc=window.winfo_width(), heightInc=window.winfo_height())
+    # window.update_idletasks()
+    # window.grid(baseWidth=100, baseHeight=100, widthInc=window.winfo_width(), heightInc=window.winfo_height())
 
     a = tk.Frame(window, bg='yellow')
     a.grid(column=0, row=0, sticky='nesw', padx=5, pady=5)
@@ -119,11 +119,11 @@ if __name__ == '__main__':
     window.grid_rowconfigure(1, weight=1)
     # window.grid_anchor('center')
     
-    ruta = fd.askopenfilename()
-    if ruta: # Al pulsar cancelar se devuelve '' (string vacio) lo que en este if se traduce como False
-        print(ruta)
-    else:
-        print('No hay ruta')
+    # ruta = fd.askopenfilename()
+    # if ruta: # Al pulsar cancelar se devuelve '' (string vacio) lo que en este if se traduce como False
+    #     print(ruta)
+    # else:
+    #     print('No hay ruta')
 
     window.mainloop()
 

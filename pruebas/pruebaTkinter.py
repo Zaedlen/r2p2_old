@@ -88,6 +88,13 @@ from tkinter import ttk
     
 #     window.mainloop()
 
+# ==================================================================================================================================================================================
+
+class ConfigFrame(tk.Frame):
+    def __init__(self, *arg, **args):
+        tk.Frame.__init__(self, *arg, **args)
+
+
 
 if __name__ == '__main__':
     window = tk.Tk()
@@ -95,10 +102,10 @@ if __name__ == '__main__':
     window.geometry('400x600')
     window.configure(background='red')
     window.update_idletasks()
-    window.grid(baseWidth=0, baseHeight=0, widthInc=window.winfo_width(), heightInc=window.winfo_height())
+    window.grid(baseWidth=100, baseHeight=100, widthInc=window.winfo_width(), heightInc=window.winfo_height())
 
     a = tk.Frame(window, bg='yellow')
-    a.grid(column=0, row=0, sticky='nesw')
+    a.grid(column=0, row=0, sticky='nesw', padx=5, pady=5)
     # tk.Label(a, text='hola').pack(fill='both', expand=True)
     # a.pack(fill='both', expand=True, padx=5, pady=5)
     b = tk.Frame(window, bg='green')
@@ -106,8 +113,9 @@ if __name__ == '__main__':
     # tk.Label(b, text='hola').pack(fill='both', expand=True)
     # b.pack(fill='both', expand=True, padx=5, pady=5)
 
-    window.grid_columnconfigure(0, weight=3)
-    window.grid_columnconfigure(1, weight=1)
+    window.grid_columnconfigure(0, weight=1)
+    window.grid_rowconfigure(0, weight=3)
+    window.grid_rowconfigure(1, weight=1)
     # window.grid_anchor('center')
     
 

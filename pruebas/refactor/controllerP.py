@@ -7,14 +7,15 @@ default = {
     'lista':[],
 }
 
-class ControllerP():
+class ControllerP(object):
 
     def __init__(self) -> None:
         self._parametros = {**default}
         self.cargar_datos('controller_conf.json')
         self.guardar_datos('controller_conf.json')
 
-
+    def __getitem__(self, name):
+        return self._parametros[name]
 
     def cargar_datos(self, ruta: str):
         with open(ruta, 'r') as f:

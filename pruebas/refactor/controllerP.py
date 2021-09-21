@@ -8,11 +8,16 @@ default = {
 }
 
 class ControllerP(object):
+    '''
+        Clase de prueba:
+        -   En la version final hacer clase abstracta y controladores concretos
+    '''
 
     def __init__(self) -> None:
         self._parametros = {**default}
         self.cargar_datos('controller_conf.json')
-        self.guardar_datos('controller_conf.json')
+        self._parametros['posY'] = 60
+        self.guardar_datos('D:/Zaedlen/Documents/Universidad/4o/TFG/R2P2/r2p2/pruebas/refactor/controller_conf.json')
 
     def __getitem__(self, name):
         return self._parametros[name]

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog as fd
 
 '''
     Idea: que aquello con lo que poblemos el frame que se escrollea sean Frames con botones dentro
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     window.grid_rowconfigure(1, weight=1)
     # window.grid_anchor('center')
     
-
+    print(fd.askopenfilename())
 
     window.mainloop()
 

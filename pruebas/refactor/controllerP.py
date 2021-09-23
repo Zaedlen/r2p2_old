@@ -15,11 +15,9 @@ class ControllerP(object):
 
     def __init__(self) -> None:
         self._parametros = {**default}
-        # self.cargar_datos('controller_conf.json')
+        self.cargar_datos('controller_conf.json')
         # self._parametros['posY'] = 60
         # self.guardar_datos('D:/Zaedlen/Documents/Universidad/4o/TFG/R2P2/r2p2/pruebas/refactor/controller_conf.json')
-
-        print(self.posXY)
 
     def __getitem__(self, name):
         '''
@@ -37,6 +35,20 @@ class ControllerP(object):
             return self._parametros[name]
         else:
             raise AttributeError("'"+self.__class__.__name__+"' object has no attribute '"+name+"'")
+
+    def __setattr__(self, name: str, value) -> None:
+        '''
+            Nos permite modificar los elem del dict parametros como si fueran atributos de la clase directamente
+
+            Puede ser muyutil pero hay que pensar muy bien las politicas para añadir nuevos atributos normales
+            y/o elem al dict parametros. Uno, otro, ambos introduciendo un flag o mediante alguna otra forma...
+        '''
+        if (name != '_parametros') and (name in self._parametros):
+            print('Seteando por mi cuenta', name)
+            self._parametros[name] = value
+        else:
+            print('Seteamos como siempre', name)
+            return super().__setattr__(name, value)
 
     def cargar_datos(self, ruta: str):
         with open(ruta, 'r') as f:

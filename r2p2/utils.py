@@ -101,7 +101,7 @@ def calculate_delta():
     delta = clock.tick(30)
     return delta
 
-def generate_dist(size = 1):
+def generate_dist(size = 1):  # ========================================================================================
     global frozen_dist, scale
     scale = 1/size
     norm.stats(scale=scale)
@@ -114,7 +114,7 @@ def get_reading(x, y):
     distance = np.linalg.norm((co2_center[0] - x, co2_center[1] - y))
     return frozen_dist.pdf(distance*scale)
 
-def create_controllers():
+def create_controllers():  # ===========================================================================================
     """
         Driver function to abstract the process of instancing a Controller object
         using factories.
@@ -129,7 +129,7 @@ def create_controllers():
     else:
         raise KeyError("The configuration file received doesn't contain a \"class\" attribute")
 
-def create_robot(json_file = '../conf/robot.json', controller = None):
+def create_robot(json_file = '../conf/robot.json', controller = None):  # ==============================================
     """
         Uses a json file to generate a fully configured Robot object.
         Inputs:
@@ -161,7 +161,7 @@ def create_robot(json_file = '../conf/robot.json', controller = None):
             r.set_color(f['color'])
         return r
 
-def init_globals_from_config():
+def init_globals_from_config():  # =====================================================================================
     """
     Initialize all global variables based on config
     TODO: Remove global variables and keep only the config dict, to at some point remove it too and pass it as reference if needed
@@ -171,7 +171,7 @@ def init_globals_from_config():
     co2_center = config['co2_center'] if 'co2_center' in config else (0, 0)
 
 
-def create_robots(controllers):
+def create_robots(controllers):  # =====================================================================================
     """
     Returns a list of robots or one robot depending on the config
     (TBC, Pedro) Why did we do a deepcopy of the controller config only when we received 1 controler, but not when multiple?
@@ -269,7 +269,7 @@ def animate(robots):
         start_time = time.time()
         frames = 0
 
-def load_image(infilename):
+def load_image(infilename):  # =========================================================================================
     """
         Helper function that loads an image in black and white, then returns it as an nparray.
     """

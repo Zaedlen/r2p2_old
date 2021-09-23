@@ -17,7 +17,7 @@ class add_path():
         except ValueError:
             pass
 
-def load_controller(name):
+def load_controller(name):  # ==========================================================================================
     """
         ###
         
@@ -37,7 +37,7 @@ def load_controller(name):
             controller = getattr(controller, comp)
     return controller
 
-def get_controllers(config):
+def get_controllers(config):  # ========================================================================================
     """Create controllers based on the configuration received"""
     if 'class' in config:
         # Create the controller passing the config as arg to the constructor

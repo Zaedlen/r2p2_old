@@ -199,7 +199,7 @@ def load_simulation(config_mgr):
     """
     global gui, npdata, co2_center, showFPS, config
     # Load the config in the global variable
-    config = config_mgr.get_config()
+    config = config_mgr.get_config()  # Devuelve el dict creado por la clase ConfigManager
     # Init global variables based on config dict
     # TODO: I think we should refactor everything to only use config as global (Pedro)
     init_globals_from_config()

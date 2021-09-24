@@ -71,7 +71,7 @@ screen = None
 clock = None
 
 
-def switch_show_robot(dummy):
+def switch_show_robot(dummy):  # --------------------------------------------------------No utilizado (?)---------------
     """
         Helper function that controls whether the robot should be displayed and updated.
         Mainly created as a callback for buttons to use, can be called before the
@@ -81,13 +81,13 @@ def switch_show_robot(dummy):
     global show_robot
     show_robot = not show_robot
 
-def press(event):
+def press(event):  # ===================================================================================================
     """Helper function that handles key presses. Must be registered to a plot."""
     global pressed
     pressed.append(event.key)
     
 
-def calculate_delta():
+def calculate_delta():  # ==============================================================================================
     """
     Helper function that calculates the delta value for any given update call.
     Necessary in order for the update to be performed somewhat smoothly.
@@ -188,7 +188,7 @@ def create_robots(controllers):  # =============================================
         r = create_robot(config['robot'], controllers[0])
     return r
 
-def load_simulation(config_mgr):
+def load_simulation(config_mgr):  # ====================================================================================
     """
         Loads a simulation using a configuration file. For the time being, it limits itself to loading the corresponding map and robot.
         Inputs:
@@ -214,7 +214,7 @@ def load_simulation(config_mgr):
     robots = create_robots(controllers)
     display_image(robots)
 
-def update_loop(robots, npdata):
+def update_loop(robots, npdata):  # ====================================================================================
     global delta, pressed, run
     while run:
         init_time = time.time()
@@ -227,12 +227,12 @@ def update_loop(robots, npdata):
         pressed.clear()
         time.sleep(1/80)
 
-def update(robots, npdata):
+def update(robots, npdata):  # =========================================================================================
     delta = calculate_delta()/1000
     for r in robots:
         r.update(npdata, delta, True)
 
-def animate(robots):
+def animate(robots):  # ================================================================================================
     """
         Update function. Updates internal world data, then prints it to a plot.
         Must be registered to said plot.
@@ -247,7 +247,7 @@ def animate(robots):
                 for a in r.controller.actual_sensor_angles:
                     dstX = r.x + np.cos(np.radians(a)) * r.controller.cur_detected_edges_distances[r.controller.actual_sensor_angles.index(a)]
                     dstY = r.y + np.sin(np.radians(a)) * r.controller.cur_detected_edges_distances[r.controller.actual_sensor_angles.index(a)]
-                    pygame.draw.line(screen, (255, 0, 255), (int(r.x), int(r.y)), (int(dstX), int(dstY)), 1)
+                    pygame.draw.line(screen, (255, 0, 255), (int(r.x), int(r.y)), (int(dstX), int(dstY)), 1) # Lineas de los sensores en morado (red + blue)
                 for e in r.controller.cur_detected_edges:
                     pygame.draw.circle(screen, (0, 255, 0), (int(e[0]), int(e[1])), int((100/np.linalg.norm((e[0]-r.x, e[1]-r.y)))/90))
                 if type(r.color) is str:
@@ -256,10 +256,10 @@ def animate(robots):
                     r.color[1] *= 255
                     r.color[2] *= 255
                     r.color = tuple(r.color)
-            pygame.draw.circle(screen, r.color, (int(r.x), int(r.y)), int(r.radius))
+            pygame.draw.circle(screen, r.color, (int(r.x), int(r.y)), int(r.radius))  # Cuerpo del robot
             dstX = r.x + np.cos(np.radians(r.orientation)) * 2 * r.radius
             dstY = r.y + np.sin(np.radians(r.orientation)) * 2 * r.radius
-            pygame.draw.line(screen, r.color, (int(r.x), int(r.y)), (int(dstX), int(dstY)), 1)
+            pygame.draw.line(screen, r.color, (int(r.x), int(r.y)), (int(dstX), int(dstY)), 1) # Pequeña linea que indica hacia donde mira, del mismo color que el cuerpo
             r.get_lock().release()
     end_time = time.time()
     frames += 1
@@ -278,7 +278,7 @@ def load_image(infilename):  # =================================================
     data = np.asarray(img, dtype="int32")
     return data
 
-def handle_close(evt):
+def handle_close(evt):  # -----------------------------------------------------------No utilizado (?)-------------------
     global run
     run = False
 
@@ -399,7 +399,7 @@ def display_image(r):
     else:
         update_loop(robots, npdata)
 
-def search_edge_in_angle(origin, angle, image):
+def search_edge_in_angle(origin, angle, image):  # =====================================================================
     """
         Basic raycasting function. It simply explores the given image in a specific angle until it finds a large enough contrast.
     """
@@ -412,7 +412,7 @@ def search_edge_in_angle(origin, angle, image):
         origin = origin[0] + var_x, origin[1] + var_y
     return -1, -1
 
-def search_edge_in_angle_with_limit(origin, angle, image, limit):
+def search_edge_in_angle_with_limit(origin, angle, image, limit):  # ===================Utilizada tmb en Robot==========
     """
         Basic raycasting function. It simply explores the given image in a specific angle until it finds a large enough contrast.
     """
@@ -426,7 +426,7 @@ def search_edge_in_angle_with_limit(origin, angle, image, limit):
         origin = origin[0] + var_x, origin[1] + var_y
     return -1, -1
 
-def search_in_all_directions_with_step_and_offset(origin, image, steps, offset):
+def search_in_all_directions_with_step_and_offset(origin, image, steps, offset):  # --Utilizado en robot y controladores------
     """
         Helper function that performs raycasting for a set of steps angles.
         These angles are spread an equal distance apart, and cover all directions
@@ -448,7 +448,7 @@ def search_in_all_directions_with_step_and_offset(origin, image, steps, offset):
             collisions.append((-1, -1))
     return collisions, distances, angles
 
-def search_in_all_directions_with_step_and_offset_with_limit(origin, image, steps, offset, limit):
+def search_in_all_directions_with_step_and_offset_with_limit(origin, image, steps, offset, limit):  # --Utilizado en robot y controladores------
     """
         Helper function that performs raycasting for a set of steps angles.
         These angles are spread an equal distance apart, and cover all directions
@@ -470,7 +470,7 @@ def search_in_all_directions_with_step_and_offset_with_limit(origin, image, step
             collisions.append((-1, -1))
     return collisions, distances, angles
 
-def search_in_all_directions_with_angles_and_offset(origin, image, angles, offset):
+def search_in_all_directions_with_angles_and_offset(origin, image, angles, offset):  # --Utilizado en robot y controladores------
     """
         Helper function that performs raycasting in a specific set of angles.
     """
@@ -489,7 +489,7 @@ def search_in_all_directions_with_angles_and_offset(origin, image, angles, offse
             collisions.append((-1, -1))
     return collisions, distances, ang
 
-def search_in_all_directions_with_angles_and_offset_with_limit(origin, image, angles, offset, limit):
+def search_in_all_directions_with_angles_and_offset_with_limit(origin, image, angles, offset, limit):  # --Utilizado en robot y controladores------
     """
         Helper function that performs raycasting in a specific set of angles.
     """
@@ -508,7 +508,7 @@ def search_in_all_directions_with_angles_and_offset_with_limit(origin, image, an
             collisions.append((-1, -1))
     return collisions, distances, ang
 
-def los_raycasting(src, dst, img):
+def los_raycasting(src, dst, img):  # -------------------------------------------------Utilizada en Path Planning-------
     """
         Function that allows for the calculation of a line of sight between two spots.
         Inputs:

@@ -107,7 +107,7 @@ def generate_dist(size = 1):  # ================================================
     norm.stats(scale=scale)
     frozen_dist = norm()
 
-def get_reading(x, y):
+def get_reading(x, y):  # =========================================================Usado en controladores PDDL==========
     global frozen_dist
     if frozen_dist is None:
         generate_dist(1000)

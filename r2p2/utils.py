@@ -319,10 +319,10 @@ def display_image(r):
                     if event.key in pressed:
                         pressed.remove(event.key)
             
-            update(robots, npdata)
+            update(robots, npdata)  # Calcula nuevo estado de los robots en este frame teniendo en cuenta el delta y toda la pesca
             screen.fill((0, 0, 0))
             screen.blit(img, (0, 0))
-            if grid_size:
+            if grid_size:  # si hay grid dibuja el grid. Lineas horizontales, verticales y los numeritos de filas y columnas
                 grid_color = (150, 150, 150)
                 font_size = round((grid_size[0]+grid_size[1]) // 2)
                 if font_size > min(grid_size):
@@ -371,12 +371,12 @@ def display_image(r):
                         text_rect.top = int(j * grid_size[0] + offset_y)
                         text_rect.centerx = int(offset_x)
                         screen.blit(text, text_rect)
-            if npdata.item(int(co2_center[0]), int(co2_center[1])) is not 0:
+            if npdata.item(int(co2_center[0]), int(co2_center[1])) is not 0:  # Dibuja no se que cosa de lineas de co2
                 pygame.draw.line(screen, (125, 0, 0), (co2_center[0]-5, co2_center[1]-5),
                                  (co2_center[0]+5, co2_center[1]+5), 2)
                 pygame.draw.line(screen, (125, 0, 0), (co2_center[0]-5, co2_center[1]+5),
                                  (co2_center[0]+5, co2_center[1]-5), 2)
-            for robot in robots:
+            for robot in robots:  # dibuja las lineas y puntitos de la lista obtenida cuando usa path planning y elabora una ruta previa
                 if robot.controller.goal_oriented():
                     aux = [(robot.x, robot.y)]
                     for i in range(0, len(robot.controller.goal)):
@@ -385,7 +385,7 @@ def display_image(r):
                         pygame.draw.line(screen,(155, 0, 100), aux[i], aux[i+1], 2)
                     for e in aux:
                         pygame.draw.circle(screen, (255, 0, 0), (int(e[0]), int(e[1])), 3)
-            for label in labels:
+            for label in labels:  # dibuja etiquetas si las hubiera
                 pos = label[0]
                 text = label[1]
                 text = font.render(text, True, (0, 0, 0))
@@ -394,8 +394,8 @@ def display_image(r):
                 text_rect.centery = pos[1]
                 pygame.draw.circle(screen, (0, 0, 0), (int(pos[0]), int(pos[1])), 1)
                 screen.blit(text, text_rect)
-            animate(robots)
-            pygame.display.flip()
+            animate(robots)  # dibuja los robots
+            pygame.display.flip()  # actualiza el frame o ventana con todo lo dibujado en este bucle
     else:
         update_loop(robots, npdata)
 

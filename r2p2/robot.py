@@ -198,9 +198,10 @@ class Robot:
 
         disp_vector = (calculated_x - self.x, calculated_y - self.y)
 
-        angle = math.degrees(math.atan2(disp_vector[1], disp_vector[0]))
+        angle = math.degrees(math.atan2(disp_vector[1], disp_vector[0])) # Este angulo calculado es exactamente self.orientation
         angle %= 360
         
+        # La norma de disp_vector es speed * delta directamente. Conclusion: ni disp_vector ni angle son necesarios
         max_spot = u.search_edge_in_angle_with_limit((self.x, self.y), math.radians(angle), env, np.linalg.norm(disp_vector)+self.radius)
 
         self.x = calculated_x

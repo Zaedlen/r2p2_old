@@ -260,54 +260,83 @@
 # exit()
 
 
-# PRUEBA REFERENCIAS Y RENDIMIENTO CREACION OBJETOS
+# ----------------------------------------------------------------------------------------------------------------------
 
+
+from PIL import Image
+import numpy as np
+import math
 import time
 
-start = time.time()
 
-parametros = {
-    (255,0,0): [(4,5),(0,3),(5,8)],
-    'a': 3
-}
+def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x=250, y=250, large=50, thickness=5, color = (0,0,0)):
+    with Image.open(ruta).convert('RGB') as aux:
+        array = np.array(aux)
 
-class pruebaP():
-    def __init__(self) -> None:
-        # # Hard copy
-        # self.parametros = {**parametros}
-        # self.parametros = dict(parametros)
-        # self.parametros = parametros.copy()
+    # print(array.shape)
+    array = np.rot90(array)
+    array = np.flipud(array)
+    # print(array.shape)
+    # print(array[0,0]) # pygame = (255,0,0)
+    # print(array[0,-1]) # pygame = (0,0,0)
+    # print(array[-1,0]) # pygame = (0,0,255)
+    # print(array[-1,-1]) # pygame = (0,255,0)
 
-        # Only reference:  --mejor--
-        self.parametros = parametros
+    # # print(array)
+    # # print(array.T)
 
-    def getParametro(self, key):
-        return self.parametros[key]
+    # # array[array != 0] = 100
+    # # print(array)
 
-    def setParametro(self, key, value):
-        self.parametros[key] = value
+    start = time.time()
 
-# a = pruebaP()
+    perpend = math.radians(angle+90)
+    angle = math.radians(angle)
+    perpend_cos = math.cos(perpend)
+    perpend_sin = math.sin(perpend)
+    angle_cos = math.cos(angle)
+    angle_sin = math.sin(angle)
 
-# print(parametros)
-# print(a.getParametro((255, 0, 0)))
-# print(a.getParametro('a'))
+    pixels = [[],[]]
+    for i in range(-(thickness//2), (thickness//2)):
+        for j in range(large):
+            pixels[0].append(round((x + (perpend_cos * i)) + (angle_cos * j)))
+            pixels[1].append(round((y + (perpend_sin * i)) + (angle_sin * j)))
+            # print('  '*(i+2),pixels[-1])
+    # print(len(pixels))
+    # pixels = np.array(pixels)
+    # print(pixels.shape)
 
-# a.setParametro('a', 5)
+    array[pixels[0], pixels[1]] = color
+    # print(array[[3,4],[4,5]])
 
-# print(a.getParametro('a'))
-# print(parametros)
+    stop = time.time()
+    print('Time:', stop-start,'s')
 
-aux = []
-for i in range(1000000):
-    aux.append(pruebaP())
+    array = np.rot90(array)
+    array = np.flipud(array)
+    
 
-print(len(aux))
-print(aux[2000].getParametro('a'))
-aux[2000].setParametro('a', 12)
-print(aux[2000].getParametro('a'))
+    resultado = Image.fromarray(array)
+    resultado.save(save)
 
-stop = time.time()
+    return (stop - start)
 
-print('Run time:', stop-start, 'seconds')
 
+# pintarLinea(0)
+# pintarLinea(90,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(255,0,0))
+# pintarLinea(180,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(0,255,0))
+# pintarLinea(270,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(0,0,255))
+# pintarLinea(45,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(255,255,0))
+
+inicio = time.time()
+
+pintarLinea(0)
+count = 0
+for i in range(0,360,360//60):
+    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(round((i/360)*255),round((i/360)*255),round((i/360)*255)), thickness=0)
+
+print('Total time:',count,'s')
+
+fin = time.time()
+print('Run time:',fin-inicio,'s')

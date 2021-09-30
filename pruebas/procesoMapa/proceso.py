@@ -277,6 +277,7 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
     array = np.rot90(array)
     array:np.ndarray = np.flipud(array)
     shape = array.shape
+    # print(array.dtype)
     # print(array.shape)
     # print(array[0,0]) # pygame = (255,0,0)
     # print(array[0,-1]) # pygame = (0,0,0)
@@ -291,7 +292,7 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
 
     start = time.time()
 
-    # Mario & me´s algorithm
+    # Mario & me´s algorithm =========================================================================================
     perpend = math.radians(angle+90)
     angle = math.radians(angle)
     perpend_cos = math.cos(perpend)
@@ -315,7 +316,7 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
 
 
 
-    # # Bresenham's line algorithm =======================================================================================
+    # # Bresenham's line algorithm ============================================================= no me convence ========
     # x1:int = round(x0 + (math.cos(angle) * large))
     # y1:int = round(y0 + (math.sin(angle) * large))
 
@@ -342,7 +343,7 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
      
 
 
-    # # Digital Differential Analyzer algorithm ================================================= no me convence =========
+    # # Digital Differential Analyzer algorithm =============================================== no me convence =========
     # x1 = x0 + (math.cos(angle) * large)
     # y1 = y0 + (math.sin(angle) * large)
 
@@ -368,13 +369,19 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
     #     i += 1
 
     array[pixels[0], pixels[1]] = color
+    # print(array[pixels[0][0],pixels[1][0]])
     # print(array[[3,4],[4,5]])
+
+    # print(np.array_equal(array[pixels[0][0],pixels[1][0]],  np.array((0,0,0), dtype=np.uint8)))
+    # print(np.array_equal(array[pixels[0][0],pixels[1][0]],  (0,0,0))) # Compara forma y valor de dos arrays
+    # array[(array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)] = (255,0,255) # teñir negro de magenta
+    
 
     stop = time.time()
     print('Time:', stop-start,'s')
 
     array = np.rot90(array)
-    array = np.flipud(array)
+    array:np.ndarray = np.flipud(array)
     
 
     resultado = Image.fromarray(array)
@@ -394,7 +401,8 @@ inicio = time.time()
 pintarLinea(0, color=(255,255,255))
 count = 0
 for i in range(0,360,360//60):
-    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=40, large=450, color=(round((i/360)*255),round((1-(i/360))*255),round((i/360)*255)))
+    # count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=40, large=450, color=(round((i/360)*255),round((1-(i/360))*255),round((i/360)*255)))
+    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=1, large=200)
 
 print('Total time:',count,'s')
 

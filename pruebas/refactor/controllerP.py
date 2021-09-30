@@ -14,7 +14,14 @@ class ControllerP(object):
     '''
 
     def __init__(self) -> None:
-        self._parametros = {**default}
+        # # Hard copy
+        # self._parametros = {**default}
+        # self._parametros = dict(default)
+        # self._parametros = default.copy()
+
+        # Only reference:  --mejor--  default ya no importa modificarlo mientras dure la ejecucion y optimizamos recursos
+        self._parametros = default
+
         self.cargar_datos('controller_conf.json')
         # self._parametros['posY'] = 60
         # self.guardar_datos('D:/Zaedlen/Documents/Universidad/4o/TFG/R2P2/r2p2/pruebas/refactor/controller_conf.json')

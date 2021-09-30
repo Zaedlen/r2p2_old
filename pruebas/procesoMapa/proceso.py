@@ -275,7 +275,8 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
 
     # print(array.shape)
     array = np.rot90(array)
-    array = np.flipud(array)
+    array:np.ndarray = np.flipud(array)
+    shape = array.shape
     # print(array.shape)
     # print(array[0,0]) # pygame = (255,0,0)
     # print(array[0,-1]) # pygame = (0,0,0)
@@ -290,66 +291,81 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=
 
     start = time.time()
 
-    # perpend = math.radians(angle+90)
-    # angle = math.radians(angle)
-    # perpend_cos = math.cos(perpend)
-    # perpend_sin = math.sin(perpend)
-    # angle_cos = math.cos(angle)
-    # angle_sin = math.sin(angle)
+    # Mario & me´s algorithm
+    perpend = math.radians(angle+90)
+    angle = math.radians(angle)
+    perpend_cos = math.cos(perpend)
+    perpend_sin = math.sin(perpend)
+    angle_cos = math.cos(angle)
+    angle_sin = math.sin(angle)
 
-    # pixels = [[],[]]
-    # for i in range(-(thickness//2), (thickness//2)+1):
-    #     for j in range(large):
-    #         pixels[0].append(round((x + (perpend_cos * i)) + (angle_cos * j)))
-    #         pixels[1].append(round((y + (perpend_sin * i)) + (angle_sin * j)))
-    #         # print('  '*(i+2),pixels[-1])
-    # # print(len(pixels))
-    # # pixels = np.array(pixels)
-    # # print(pixels.shape)
+    pixels = [[],[]]
+    for i in range(-(thickness//2), (thickness//2)+1):
+        for j in range(large):
+            aux_x = round((x0 + (perpend_cos * i)) + (angle_cos * j))
+            aux_y = round((y0 + (perpend_sin * i)) + (angle_sin * j))
+            if (aux_x >= 0) and (aux_x < shape[0]) and (aux_y >= 0) and (aux_y < shape[1]):
+                pixels[0].append(aux_x)
+                pixels[1].append(aux_y)
+            else: break
+            # print('  '*(i+2),pixels[-1])
+    # print(len(pixels))
+    # pixels = np.array(pixels)
+    # print(pixels.shape)
+
+
 
     # # Bresenham's line algorithm =======================================================================================
     # x1:int = round(x0 + (math.cos(angle) * large))
     # y1:int = round(y0 + (math.sin(angle) * large))
 
-    # dx:int = x1 - x0
-    # dy:int = y1 - y0
-    # dD:int = (2*dy) - dx
-    # y:int = y0
+    # dx:int = abs(x1 - x0)
+    # sx:int = 1 if x0 < x1 else -1
+    # dy:int = -abs(y1 - y0)
+    # sy:int = 1 if y0 < y1 else -1
+    # err = dx + dy
+    # x = x0
+    # y = y0
 
     # pixels = [[],[]]
-    # for x in range(x0, x1):
-    #     pixels[0].append(x)
-    #     pixels[1].append(y)
-    #     if dD > 0:
-    #         y += 1
-    #         dD -= 2*dx
-    #     dD += 2*dy
-    # # Incompleto, esto es solo para dy y dx positivos
+    # while (x0 != x1) or (y0 != y1):
+    #     pixels[0].append(x0)
+    #     pixels[1].append(y0)
 
-    # Digital Differential Analyzer algorithm ==========================================================================
-    x1 = x0 + (math.cos(angle) * large)
-    y1 = y0 + (math.sin(angle) * large)
+    #     e2 = 2*err
+    #     if e2 >= dy:
+    #         err += dy
+    #         x0 += sx
+    #     if e2 <= dx:
+    #         err += dx
+    #         y0 += sy
+     
 
-    dx = x1 - x0
-    dy = y1 - y0
 
-    if abs(dx) >= abs(dy):
-        step = abs(dx)
-    else:
-        step = abs(dy)
-    dx = dx / step
-    dy = dy / step
-    x = x0
-    y = y0
+    # # Digital Differential Analyzer algorithm ================================================= no me convence =========
+    # x1 = x0 + (math.cos(angle) * large)
+    # y1 = y0 + (math.sin(angle) * large)
 
-    pixels = [[],[]]
-    i = 0
-    while i <= step:
-        pixels[0].append(round(x))
-        pixels[1].append(round(y))
-        x += dx
-        y += dy
-        i += 1
+    # dx = x1 - x0
+    # dy = y1 - y0
+
+    # if abs(dx) >= abs(dy):
+    #     step = abs(dx)
+    # else:
+    #     step = abs(dy)
+    # dx = dx / step
+    # dy = dy / step
+    # x = x0
+    # y = y0
+
+    # pixels = [[],[]]
+    # i = 0
+    # while i <= step:
+    #     pixels[0].append(round(x))
+    #     pixels[1].append(round(y))
+    #     x += dx
+    #     y += dy
+    #     i += 1
 
     array[pixels[0], pixels[1]] = color
     # print(array[[3,4],[4,5]])
@@ -378,7 +394,7 @@ inicio = time.time()
 pintarLinea(0, color=(255,255,255))
 count = 0
 for i in range(0,360,360//60):
-    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=1)
+    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=40, large=450, color=(round((i/360)*255),round((1-(i/360))*255),round((i/360)*255)))
 
 print('Total time:',count,'s')
 

@@ -269,7 +269,7 @@ import math
 import time
 
 
-def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x=250, y=250, large=50, thickness=5, color = (0,0,0)):
+def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x0=250, y0=250, large=50, thickness=5, color = (0,0,0)):
     with Image.open(ruta).convert('RGB') as aux:
         array = np.array(aux)
 
@@ -290,22 +290,66 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x=250, y=25
 
     start = time.time()
 
-    perpend = math.radians(angle+90)
-    angle = math.radians(angle)
-    perpend_cos = math.cos(perpend)
-    perpend_sin = math.sin(perpend)
-    angle_cos = math.cos(angle)
-    angle_sin = math.sin(angle)
+    # perpend = math.radians(angle+90)
+    # angle = math.radians(angle)
+    # perpend_cos = math.cos(perpend)
+    # perpend_sin = math.sin(perpend)
+    # angle_cos = math.cos(angle)
+    # angle_sin = math.sin(angle)
+
+    # pixels = [[],[]]
+    # for i in range(-(thickness//2), (thickness//2)+1):
+    #     for j in range(large):
+    #         pixels[0].append(round((x + (perpend_cos * i)) + (angle_cos * j)))
+    #         pixels[1].append(round((y + (perpend_sin * i)) + (angle_sin * j)))
+    #         # print('  '*(i+2),pixels[-1])
+    # # print(len(pixels))
+    # # pixels = np.array(pixels)
+    # # print(pixels.shape)
+
+    # # Bresenham's line algorithm =======================================================================================
+    # x1:int = round(x0 + (math.cos(angle) * large))
+    # y1:int = round(y0 + (math.sin(angle) * large))
+
+    # dx:int = x1 - x0
+    # dy:int = y1 - y0
+    # dD:int = (2*dy) - dx
+    # y:int = y0
+
+    # pixels = [[],[]]
+    # for x in range(x0, x1):
+    #     pixels[0].append(x)
+    #     pixels[1].append(y)
+    #     if dD > 0:
+    #         y += 1
+    #         dD -= 2*dx
+    #     dD += 2*dy
+    # # Incompleto, esto es solo para dy y dx positivos
+
+    # Digital Differential Analyzer algorithm ==========================================================================
+    x1 = x0 + (math.cos(angle) * large)
+    y1 = y0 + (math.sin(angle) * large)
+
+    dx = x1 - x0
+    dy = y1 - y0
+
+    if abs(dx) >= abs(dy):
+        step = abs(dx)
+    else:
+        step = abs(dy)
+    dx = dx / step
+    dy = dy / step
+    x = x0
+    y = y0
 
     pixels = [[],[]]
-    for i in range(-(thickness//2), (thickness//2)):
-        for j in range(large):
-            pixels[0].append(round((x + (perpend_cos * i)) + (angle_cos * j)))
-            pixels[1].append(round((y + (perpend_sin * i)) + (angle_sin * j)))
-            # print('  '*(i+2),pixels[-1])
-    # print(len(pixels))
-    # pixels = np.array(pixels)
-    # print(pixels.shape)
+    i = 0
+    while i <= step:
+        pixels[0].append(round(x))
+        pixels[1].append(round(y))
+        x += dx
+        y += dy
+        i += 1
 
     array[pixels[0], pixels[1]] = color
     # print(array[[3,4],[4,5]])
@@ -331,10 +375,10 @@ def pintarLinea(angle, ruta="lienzo.png", save="lienzo_pintado.png", x=250, y=25
 
 inicio = time.time()
 
-pintarLinea(0)
+pintarLinea(0, color=(255,255,255))
 count = 0
 for i in range(0,360,360//60):
-    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", color=(round((i/360)*255),round((i/360)*255),round((i/360)*255)), thickness=0)
+    count += pintarLinea(i,ruta="lienzo_pintado.png", save="lienzo_pintado.png", thickness=1)
 
 print('Total time:',count,'s')
 

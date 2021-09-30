@@ -15,12 +15,14 @@ class ControllerP(object):
 
     def __init__(self) -> None:
         # # Hard copy
-        # self._parametros = {**default}
-        # self._parametros = dict(default)
-        # self._parametros = default.copy()
+        # self._parametros = {**default} # Un poco mas lento que copy pero apenas (0.7 sec aprox 1 millon de copias)
+        # self._parametros = dict(default)  # El mas lento (0.7 - 0.8 sec aprox 1 millon de copias)
+        # self._parametros = default.copy() # Mas rapido (0.6 - 0.7 sec aprox 1 millon de copias)
+
+        # # IMP: Crear 1 milon de instancias, objetos de una clase para un dict como este: 0.9 - 1.1 sec aprox 1 millon de instancias. El mas lento de todos (y que mas mem consume)
 
         # Only reference:  --mejor--  default ya no importa modificarlo mientras dure la ejecucion y optimizamos recursos
-        self._parametros = default
+        self._parametros = default  # Mucho mas rapido (0.1 sec aprox 1 millon de copias)
 
         self.cargar_datos('controller_conf.json')
         # self._parametros['posY'] = 60

@@ -260,6 +260,12 @@
 # exit()
 
 
+# PRUEBA REFERENCIAS Y RENDIMIENTO CREACION OBJETOS
+
+import time
+
+start = time.time()
+
 parametros = {
     (255,0,0): [(4,5),(0,3),(5,8)],
     'a': 3
@@ -281,13 +287,27 @@ class pruebaP():
     def setParametro(self, key, value):
         self.parametros[key] = value
 
-a = pruebaP()
+# a = pruebaP()
 
-print(parametros)
-print(a.getParametro((255, 0, 0)))
-print(a.getParametro('a'))
+# print(parametros)
+# print(a.getParametro((255, 0, 0)))
+# print(a.getParametro('a'))
 
-a.setParametro('a', 5)
+# a.setParametro('a', 5)
 
-print(a.getParametro('a'))
-print(parametros)
+# print(a.getParametro('a'))
+# print(parametros)
+
+aux = []
+for i in range(1000000):
+    aux.append(pruebaP())
+
+print(len(aux))
+print(aux[2000].getParametro('a'))
+aux[2000].setParametro('a', 12)
+print(aux[2000].getParametro('a'))
+
+stop = time.time()
+
+print('Run time:', stop-start, 'seconds')
+

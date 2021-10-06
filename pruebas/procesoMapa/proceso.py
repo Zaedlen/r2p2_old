@@ -496,7 +496,7 @@ loggedData = ""
 def loggear(*args):
     global loggedData
     for a in args:
-        loggedData += str(a)
+        loggedData += str(a) + ' '
     loggedData += '\n'
 
 class Objeto():
@@ -558,7 +558,7 @@ class TipoColision():
                     break
             if not added:
                 self.objetos.append(Objeto(pixel, len(self.objetos)))
-                loggear('   Type:', self.color, ' Added pixel', pixel, 'to new Objeto', len(self.objetos))
+                loggear('   Type:', self.color, ' Added pixel', pixel, 'to new Objeto', len(self.objetos)-1)
             return True
         else:
             return False
@@ -587,15 +587,15 @@ def procesarImagen(carga, guardado):
     # print(array[(-1,-1)])
     # print(array[[0,-1],[0,-1]])
     
-    objetos = []
+    
     for tipo in colisiones:
         tipo:TipoColision
-        
-        objetos.extend(tipo.objetos)
-    division = 255 // len(objetos)
-    for i in range(len(objetos)):
-        x,y = objetos[i].getCoord()
-        array[x,y] = (division*i, division*i, division*i)
+        fraccion = 1 / len(tipo.objetos)
+        print(255*fraccion)
+        for i in range(len(tipo.objetos)):
+            x,y = tipo.objetos[i].getCoord()
+            array[x,y] = tuple(int(c*(i+1)*fraccion) for c in tipo.color)
+            print(tuple(int(c*i*fraccion) for c in tipo.color))
 
     guardarArray_pygame(array, guardado)
 

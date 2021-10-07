@@ -268,8 +268,7 @@ from PIL import Image
 import numpy as np
 import math
 import time
-
-from numpy.core.fromnumeric import shape
+import scipy
 
 # Funciones auxiliares =================================================================================================
 def cargarArray(ruta:str):
@@ -603,13 +602,139 @@ def procesarImagen(carga, guardado):
             
                         
 
-colisiones = procesarImagen('lienzo_obstaculos.png', 'lienzo_pintado.png')
-print(len(colisiones))
+# Pruebas Procesar imagen para obtener objetos =========================================================================
+# colisiones = procesarImagen('lienzo_obstaculos.png', 'lienzo_pintado.png')
+# print(len(colisiones))
 
-with open('logs.txt', 'w') as logg:
-    print(loggedData, file=logg)
+# with open('logs.txt', 'w') as logg:
+#     print(loggedData, file=logg)
+
+# array = cargarArray_pygame('lienzo.png')
 
 
 
+# # Where para encontrar zonas completas de color concreto
+# start = time.time()
+
+# x, y = np.where((array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)) # encontrar el negro
+
+# coordenadas = tuple(zip(x,y))
+# print((0,382) in coordenadas)
+
+# stop = time.time()
+# print('Time:', stop-start)
+
+# array[x,y] = (255,0,255) # teñir negro de magenta
+
+# # array[(array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)] = (255,0,255) # teñir negro de magenta
+
+
+# from scipy import interpolate
+
+# x = [210,200,190,200]
+# print(x)
+# print([i*-1 for i in x])
+
+# guardarArray_pygame(array, 'lienzo_pintado.png')
+
+
+# Dibujar circunferencia con coord y radios dados ======================================================================
+def octante_bresenham(radius: int):
+    x:int = 0
+    y:int = radius
+    decision_parameter:int = 3 - (2 * radius)
+
+    x_coord = [x]
+    y_coord = [y]
+    
+    while y >= x:
+        x += 1
+
+        if decision_parameter > 0:
+            y -= 1
+            decision_parameter = decision_parameter + (4 * (x - y)) + 10
+        else:
+            decision_parameter = decision_parameter + (4 * x) + 6
+
+        x_coord.append(x)
+        y_coord.append(y)
+
+    return x_coord, y_coord
+
+
+def circunferencia_bresenham(x_c:int, y_c:int, radius:int):
+    '''
+        Vamos a utilizar el algoritmo Bresenham
+    '''
+    # Obtenemos la lista de coord del primer octante Bresenham (2o octante en la circunferencia, de hecho)
+    oct_x_pos, oct_y_pos = octante_bresenham(radius)
+
+    # Obtenemos la lista negativa
+    oct_x_neg = [i * -1 for i in oct_x_pos]
+    oct_y_neg = [i * -1 for i in oct_y_pos]
+
+    # Creamos la lista completa de coord de los ptos del circulo con la formula de los octantes de Bresenham
+    coord_x = []
+    coord_y = []
+    # Primer octante
+    coord_x.extend(oct_x_pos)
+    coord_y.extend(oct_y_pos)
+    # Segundo octante
+    coord_x.extend(oct_x_neg)
+    coord_y.extend(oct_y_pos)
+    # Tercer octante
+    coord_x.extend(oct_x_pos)
+    coord_y.extend(oct_y_neg)
+    # Cuarto octante
+    coord_x.extend(oct_x_neg)
+    coord_y.extend(oct_y_neg)
+    # Quinto octante
+    coord_x.extend(oct_y_pos)
+    coord_y.extend(oct_x_pos)
+    # Sexto octante
+    coord_x.extend(oct_y_neg)
+    coord_y.extend(oct_x_pos)
+    # Septimo octante
+    coord_x.extend(oct_y_pos)
+    coord_y.extend(oct_x_neg)
+    # Octavo octante
+    coord_x.extend(oct_y_neg)
+    coord_y.extend(oct_x_neg)
+
+    # Movemos las coord al centro dado. Hasta ahora eran relativas a 0,0
+    start = time.time()
+    coord_x = [i + x_c for i in coord_x]
+    coord_y = [i + y_c for i in coord_y]
+    stop = time.time()
+    print('Time:', stop-start)
+
+    return coord_x, coord_y
+
+# Pruebas dibujar circunferencia con coord y radios dados ==============================================================
+
+array = cargarArray_pygame('lienzo_obstaculos.png')
+
+# # lista de ptos del circulo en 200, 200 y radio 5
+# x, y = circunferencia_bresenham(200, 200, 5)
+# array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+
+# # lista de ptos del circulo en 200, 120 y radio 50
+# x, y = circunferencia_bresenham(200, 120, 50)
+# array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+
+x_obj, y_obj = circunferencia_bresenham(200, 120, 50) # coord que queremos comprobar si colisionan
+x_negro, y_negro = np.where((array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)) # encontrar el negro en el mapa
+
+colisiones = []
+for pto in tuple(zip(x_obj, y_obj)):
+    if pto in tuple(zip(x_negro, y_negro)): colisiones.append(pto)
+print(colisiones)
+array[x_obj,y_obj] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+col_x, col_y = zip(*colisiones)
+print(col_x)
+print(col_y)
+array[col_x, col_y] = (255,0,255) # Pintamos los ptos que colisionan en magenta
+
+guardarArray_pygame(array, 'lienzo_pintado.png')
 
 

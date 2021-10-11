@@ -769,5 +769,8 @@ print(resultado)
 
 
 # ROTACION -------------------------------------------------------------------------------------------------------------
+from scipy.spatial.transform import Rotation as R
 
+r = R.from_rotvec(45 * np.array([1,0,0]), degrees= True)
+print(r.as_matrix())
 

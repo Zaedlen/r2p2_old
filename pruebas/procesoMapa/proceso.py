@@ -268,6 +268,7 @@ from PIL import Image
 import numpy as np
 import math
 import time
+from numpy.core.numeric import indices
 import scipy
 
 # Funciones auxiliares =================================================================================================
@@ -712,29 +713,61 @@ def circunferencia_bresenham(x_c:int, y_c:int, radius:int):
 
 # Pruebas dibujar circunferencia con coord y radios dados ==============================================================
 
-array = cargarArray_pygame('lienzo_obstaculos.png')
+# array = cargarArray_pygame('lienzo_obstaculos.png')
 
-# # lista de ptos del circulo en 200, 200 y radio 5
-# x, y = circunferencia_bresenham(200, 200, 5)
-# array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+# # # lista de ptos del circulo en 200, 200 y radio 5
+# # x, y = circunferencia_bresenham(200, 200, 5)
+# # array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
 
-# # lista de ptos del circulo en 200, 120 y radio 50
-# x, y = circunferencia_bresenham(200, 120, 50)
-# array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+# # # lista de ptos del circulo en 200, 120 y radio 50
+# # x, y = circunferencia_bresenham(200, 120, 50)
+# # array[x,y] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
 
-x_obj, y_obj = circunferencia_bresenham(200, 120, 50) # coord que queremos comprobar si colisionan
-x_negro, y_negro = np.where((array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)) # encontrar el negro en el mapa
+# x_obj, y_obj = circunferencia_bresenham(200, 120, 50) # coord que queremos comprobar si colisionan
+# x_negro, y_negro = np.where((array[:,:,0] == 0) & (array[:,:,1] == 0) & (array[:,:,2] == 0)) # encontrar el negro en el mapa
 
-colisiones = []
-for pto in tuple(zip(x_obj, y_obj)):
-    if pto in tuple(zip(x_negro, y_negro)): colisiones.append(pto)
-print(colisiones)
-array[x_obj,y_obj] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
-col_x, col_y = zip(*colisiones)
-print(col_x)
-print(col_y)
-array[col_x, col_y] = (255,0,255) # Pintamos los ptos que colisionan en magenta
+# colisiones = []
+# for pto in tuple(zip(x_obj, y_obj)):
+#     if pto in tuple(zip(x_negro, y_negro)): colisiones.append(pto)
+# print(colisiones)
+# array[x_obj,y_obj] = (0,0,0) # pintamos los pixeles de la circunferencia en negro
+# col_x, col_y = zip(*colisiones)
+# print(col_x)
+# print(col_y)
+# array[col_x, col_y] = (255,0,255) # Pintamos los ptos que colisionan en magenta
 
-guardarArray_pygame(array, 'lienzo_pintado.png')
+# guardarArray_pygame(array, 'lienzo_pintado.png')
+
+
+# FORMAS DE PASAR INDICES A ARRAY --------------------------------------------------------------------------------------
+array:np.ndarray = np.arange(81).reshape((9,9))
+print(array)
+# indic = [[1,2,3,6],[1,3,1,3]] # Deprecated el uso de lista (non-tuple). deberia ser tuple([[],[]]) o directamente ([],[])
+# indic = np.array([[1,2,3,6],[1,3,1,3]], dtype=np.int32)
+# print(indic) # [[1 2 3 6]
+#              #  [1 3 1 3]]
+# indic = tuple(indic) # El array dim 2 en realidad es un ndarray de ndarrays y se puede hacer tupla de dos ndarrays
+# print(indic) # (array([1, 2, 3, 6]), array([1, 3, 1, 3]))
+aux = np.where((array == 10) | (array == 21) | (array == 28) | (array == 57)) # Tupla de dos nd arrays tal y como devuelve where
+# print(aux) # (array([1, 2, 3, 6], dtype=int64), array([1, 3, 1, 3], dtype=int64))
+# # Estas tuplas son directamente usables como indices
+# print(array[aux]) # [10 21 28 57]
+
+
+# TRASLACION -----------------------------------------------------------------------------------------------------------
+# aux = np.array(aux) # Coordenadas en (0,0)
+# pto = np.array((2,1)).reshape((2,1)) # Pto (2,1) al que queremos hacer la traslacion: equiv a traslacion en vector (2,1)
+# print(pto)
+# print(aux + pto) # La traslación es tan sencilla como una simple suma
+# print(aux - pto) # La tras lación en el vector inverso -1 * (2,1) pude hacerse con la resta
+# aux[0] += 2 # Tmb modificando las coord x e y por separado, sumando las coord del vector pero sin tener que crearlo en numpy
+# aux[1] += 1 
+# print(aux)
+# Se podria hacer directamente con la tupla pero creando una nueva, por lo que es indifirente a hacer tuple en el array y viceversa
+resultado = (aux[0] + 2, aux[1] + 1)
+print(resultado)
+
+
+# ROTACION -------------------------------------------------------------------------------------------------------------
 
 

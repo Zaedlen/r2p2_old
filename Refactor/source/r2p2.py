@@ -34,7 +34,7 @@ import argparse
 from simulation import Simulation
 
 class R2P2():
-    scenario = '../config/scenario-default.json'
+    simulation_conf = '../config/simulation/default.json'
 
     def __init__(self) -> None:
         """
@@ -75,15 +75,11 @@ class R2P2():
         """
             Updates the object __dict__ with the parameters got from the CLI parsing
         """
-        global DEFAULT
-        # Get default atribute values
-        self.__dict__.update(DEFAULT)
-        # Delete DEFAULT to save memory. We are no longer needing it
-        del DEFAULT
         # Parse CLI args
         args, unknown = self.parser.parse_known_args()
         # Get CLI atribute values if any
-        self.__dict__.update(args.__dict__)
+        for key, val in args.__dict__.items():
+            if val != None: self.__dict__[key] = val
 
     def __load_simulation(self):
         """
@@ -107,4 +103,4 @@ if __name__ == '__main__':
 
     # Create the main R2P2 class
     r2p2 = R2P2()
-    r2p2.hola
+    print(r2p2.simulation_conf)

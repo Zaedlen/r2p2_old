@@ -740,37 +740,67 @@ def circunferencia_bresenham(x_c:int, y_c:int, radius:int):
 
 
 # FORMAS DE PASAR INDICES A ARRAY --------------------------------------------------------------------------------------
-array:np.ndarray = np.arange(81).reshape((9,9))
-print(array)
-# indic = [[1,2,3,6],[1,3,1,3]] # Deprecated el uso de lista (non-tuple). deberia ser tuple([[],[]]) o directamente ([],[])
-# indic = np.array([[1,2,3,6],[1,3,1,3]], dtype=np.int32)
-# print(indic) # [[1 2 3 6]
-#              #  [1 3 1 3]]
-# indic = tuple(indic) # El array dim 2 en realidad es un ndarray de ndarrays y se puede hacer tupla de dos ndarrays
-# print(indic) # (array([1, 2, 3, 6]), array([1, 3, 1, 3]))
-aux = np.where((array == 10) | (array == 21) | (array == 28) | (array == 57)) # Tupla de dos nd arrays tal y como devuelve where
-# print(aux) # (array([1, 2, 3, 6], dtype=int64), array([1, 3, 1, 3], dtype=int64))
-# # Estas tuplas son directamente usables como indices
-# print(array[aux]) # [10 21 28 57]
+# array:np.ndarray = np.arange(81).reshape((9,9))
+# print(array)
+# # indic = [[1,2,3,6],[1,3,1,3]] # Deprecated el uso de lista (non-tuple). deberia ser tuple([[],[]]) o directamente ([],[])
+# # indic = np.array([[1,2,3,6],[1,3,1,3]], dtype=np.int32)
+# # print(indic) # [[1 2 3 6]
+# #              #  [1 3 1 3]]
+# # indic = tuple(indic) # El array dim 2 en realidad es un ndarray de ndarrays y se puede hacer tupla de dos ndarrays
+# # print(indic) # (array([1, 2, 3, 6]), array([1, 3, 1, 3]))
+# aux = np.where((array == 10) | (array == 21) | (array == 28) | (array == 57)) # Tupla de dos nd arrays tal y como devuelve where
+# # print(aux) # (array([1, 2, 3, 6], dtype=int64), array([1, 3, 1, 3], dtype=int64))
+# # # Estas tuplas son directamente usables como indices
+# # print(array[aux]) # [10 21 28 57]
 
 
-# TRASLACION -----------------------------------------------------------------------------------------------------------
+# # TRASLACION -----------------------------------------------------------------------------------------------------------
 # aux = np.array(aux) # Coordenadas en (0,0)
-# pto = np.array((2,1)).reshape((2,1)) # Pto (2,1) al que queremos hacer la traslacion: equiv a traslacion en vector (2,1)
-# print(pto)
-# print(aux + pto) # La traslación es tan sencilla como una simple suma
-# print(aux - pto) # La tras lación en el vector inverso -1 * (2,1) pude hacerse con la resta
-# aux[0] += 2 # Tmb modificando las coord x e y por separado, sumando las coord del vector pero sin tener que crearlo en numpy
-# aux[1] += 1 
-# print(aux)
-# Se podria hacer directamente con la tupla pero creando una nueva, por lo que es indifirente a hacer tuple en el array y viceversa
-resultado = (aux[0] + 2, aux[1] + 1)
-print(resultado)
+# # pto = np.array((2,1)).reshape((2,1)) # Pto (2,1) al que queremos hacer la traslacion: equiv a traslacion en vector (2,1)
+# # print(pto)
+# # print(aux + pto) # La traslación es tan sencilla como una simple suma
+# # print(aux - pto) # La tras lación en el vector inverso -1 * (2,1) pude hacerse con la resta
+# # aux[0] += 2 # Tmb modificando las coord x e y por separado, sumando las coord del vector pero sin tener que crearlo en numpy
+# # aux[1] += 1 
+# # print(aux)
+# # Se podria hacer directamente con la tupla pero creando una nueva, por lo que es indifirente a hacer tuple en el array y viceversa
+# resultado = (aux[0] + 2, aux[1] + 1)
+# print(resultado)
 
 
 # ROTACION -------------------------------------------------------------------------------------------------------------
-from scipy.spatial.transform import Rotation as R
+# from scipy.spatial.transform import Rotation as R  # A igualdad de veloc, nos quedamos con la construccion 2, mas simple
 
-r = R.from_rotvec(45 * np.array([1,0,0]), degrees= True)
-print(r.as_matrix())
+# start1 = time.time()
+
+# r = R.from_rotvec(30 * np.array([0,0,1]), degrees= True)
+
+# stop1 = time.time()
+# print(r.as_matrix())
+# print('Time 1:', stop1-start1)
+
+theta = math.radians(45)
+start2 = time.time()
+
+seno = math.sin(theta)
+coseno = math.cos(theta)
+rotation = np.array([[coseno, -seno],[seno, coseno]])
+
+stop2 = time.time()
+print(rotation)
+# print(rotation.shape)
+# print(rotation[0,0])
+print('Time 2:', stop2-start2)
+
+
+array = np.array([[4,5,6,7,8],[5,5,5,5,5]]) # Coord con eje rotacion en (1,5)
+array[0] += -1 # Traslacion del eje de rotacion a (0,0)
+array[1] += -5
+array = np.matmul(rotation, array) # Rotacion theta
+array[0] += 1 # Traslacion del eje de rotacion a su posicion original (1,5)
+array[1] += 5
+
+print(array)
+
+print(type(array[:,1]))
 
